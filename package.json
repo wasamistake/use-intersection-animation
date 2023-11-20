@@ -1,0 +1,78 @@
+{
+  "name": "@wasamistake/use-intersection-animation",
+  "description": "Animate elements when they intersect with the viewport (or another root element).",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.esm.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "prepare": "husky install",
+    "prebuild": "rm -rf dist/",
+    "build": "rollup --config",
+    "format": "prettier . --write --ignore-unknown",
+    "lint": "eslint . --cache --ignore-path .gitignore",
+    "test": "vitest",
+    "storybook": "storybook dev --port 6006 --no-open",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "react": "18",
+    "react-dom": "18"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@storybook/addon-essentials": "^7.5.3",
+    "@storybook/addon-interactions": "^7.5.3",
+    "@storybook/addon-links": "^7.5.3",
+    "@storybook/addon-themes": "^7.5.3",
+    "@storybook/blocks": "^7.5.3",
+    "@storybook/react": "^7.5.3",
+    "@storybook/react-vite": "^7.5.3",
+    "@storybook/testing-library": "^0.2.2",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/react": "^18.2.36",
+    "@types/react-dom": "^18.2.14",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-storybook": "^0.6.15",
+    "eslint-plugin-testing-library": "^6.1.0",
+    "husky": "^8.0.3",
+    "jsdom": "^22.1.0",
+    "lint-staged": "^15.0.2",
+    "prettier": "3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^4.3.0",
+    "storybook": "^7.5.3",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
+  },
+  "keywords": [
+    "reveal",
+    "animation",
+    "react",
+    "hook",
+    "waapi"
+  ],
+  "author": "wasamistake",
+  "license": "MIT",
+  "homepage": "https://github.com/wasamistake/use-intersection-animation#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wasamistake/use-intersection-animation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wasamistake/use-intersection-animation/issues"
+  }
+}

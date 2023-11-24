@@ -13,6 +13,19 @@ export const reveal: SyntheticEffect = {
   },
 }
 
+export const scale: SyntheticEffect = {
+  keyframes: {
+    opacity: [0, 1],
+    transform: ['scale3d(0, 0, 0)', 'scale3d(1, 1, 1)'],
+  },
+  options: {
+    duration: 500,
+    easing: 'ease',
+    fill: 'both',
+    id: 'scale',
+  },
+}
+
 export const slideLeft: SyntheticEffect = {
   keyframes: {
     opacity: [0, 1],

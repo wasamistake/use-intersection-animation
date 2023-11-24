@@ -39,6 +39,19 @@ export const scaleHorizontally: SyntheticEffect = {
   },
 }
 
+export const scaleVertically: SyntheticEffect = {
+  keyframes: {
+    opacity: [0, 1],
+    transform: ['scale3d(1, 0, 1)', 'scale3d(1, 1, 1)'],
+  },
+  options: {
+    duration: 500,
+    easing: 'ease',
+    fill: 'both',
+    id: 'scale-vertically',
+  },
+}
+
 export const slideLeft: SyntheticEffect = {
   keyframes: {
     opacity: [0, 1],

@@ -80,27 +80,27 @@ export default function useIntersectionAnimation(options: Options = {}) {
         return animation
       })
 
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          const originalDelay = options.delay ?? 0
-          const delay = originalDelay + stagger * i
+      const intersectingEntries = entries.filter(entry => entry.isIntersecting)
 
-          const animation = animations.find(animation => {
-            if (animation.effect instanceof KeyframeEffect) {
-              return animation.effect.target === entry.target
-            }
-          })
+      intersectingEntries.forEach((entry, i) => {
+        const originalDelay = options.delay ?? 0
+        const delay = originalDelay + stagger * i
 
-          if (animation) {
-            animation.effect?.updateTiming({ delay })
-
-            animation.play()
+        const animation = animations.find(animation => {
+          if (animation.effect instanceof KeyframeEffect) {
+            return animation.effect.target === entry.target
           }
+        })
 
-          if (!repeat) {
-            observer.current?.unobserve(entry.target)
-            unobserved.current.push(entry.target)
-          }
+        if (animation) {
+          animation.effect?.updateTiming({ delay })
+
+          animation.play()
+        }
+
+        if (!repeat) {
+          observer.current?.unobserve(entry.target)
+          unobserved.current.push(entry.target)
         }
       })
     },

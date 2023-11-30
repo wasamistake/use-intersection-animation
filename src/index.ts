@@ -46,7 +46,7 @@ export default function useIntersectionAnimation(options: Options = {}) {
   const { root, rootMargin, threshold } = observerOptions
 
   if (!isSyntheticEffect(effect)) {
-    throw new Error(
+    console.error(
       'Invalid effect. Please provide an object with keyframes and timing options.',
     )
   }

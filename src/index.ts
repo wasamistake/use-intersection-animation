@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { reveal } from './animations'
+import { reveal } from './effects'
 import { isSyntheticEffect } from './utils'
 
 export type SyntheticEffect = {

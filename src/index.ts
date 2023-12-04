@@ -45,12 +45,6 @@ export default function useIntersectionAnimation(options: Options = {}) {
 
   const { root, rootMargin, threshold } = observerOptions
 
-  if (!isSyntheticEffect(effect)) {
-    console.error(
-      'Invalid effect. Please provide an object with keyframes and timing options.',
-    )
-  }
-
   const elements = useRef<Element[]>([])
 
   const addElement: React.RefCallback<Element> = node => {
@@ -64,6 +58,13 @@ export default function useIntersectionAnimation(options: Options = {}) {
 
   const animate = useCallback(
     (entries: IntersectionObserverEntry[]) => {
+      if (!isSyntheticEffect(effect)) {
+        console.error(
+          'Invalid effect. Please provide an object with keyframes and timing options.',
+        )
+        return
+      }
+
       const { keyframes, options } = effect
 
       const animations = entries.map(entry => {

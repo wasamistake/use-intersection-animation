@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi, type Mock } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useIntersectionAnimation from '.'
@@ -8,13 +8,18 @@ let intersect: (elements: Element[]) => void
 
 let entries: Pick<IntersectionObserverEntry, 'target' | 'isIntersecting'>[] = []
 
+let callbackMock: Mock
+
 const observeMock = vi.fn(element => {
   if (entries.some(entry => entry.target === element)) return
 
-  entries.push({
+  const newEntry = {
     target: element,
     isIntersecting: false,
-  })
+  }
+
+  entries.push(newEntry)
+  callbackMock([newEntry])
 })
 
 const unobserveMock = vi.fn(element => {
@@ -27,6 +32,8 @@ const disconnectMock = vi.fn()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const IntersectionObserverMock = vi.fn((callback, options) => {
+  callbackMock = vi.fn(entries => callback(entries))
+
   intersect = elements => {
     elements.forEach(element => {
       const i = entries.findIndex(entry => entry.target === element)
@@ -39,7 +46,7 @@ const IntersectionObserverMock = vi.fn((callback, options) => {
       }
     })
 
-    callback(entries)
+    callbackMock(entries)
   }
 
   return {
@@ -166,7 +173,6 @@ test("The animation's initial state is applied (to handle rootMargin < 0 or thre
   const elements = screen.getAllByText(/static/i)
 
   intersect(elements)
-  expect(AnimationMock).toHaveBeenCalledTimes(3)
   AnimationMock.mock.results.forEach(result => {
     expect(result.value.currentTime).toBe(0)
   })

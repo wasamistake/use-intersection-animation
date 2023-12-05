@@ -178,6 +178,19 @@ test("The animation's initial state is applied (to handle rootMargin < 0 or thre
   })
 })
 
+test('Lazily created elements are animated without triggering a re-animation of the animated ones', async () => {
+  const user = userEvent.setup()
+
+  render(<Sandbox options={{ repeat: true }} />)
+
+  // For now, assert the observer's default behavior of executing the callback
+  // for newly observed targets, as mocking some of the functionalities
+  // has proved to be tricky.
+  expect(callbackMock).toHaveBeenCalledTimes(3)
+  await user.click(screen.getByRole('button', { name: /toggle lazy/i }))
+  expect(callbackMock).toHaveBeenCalledTimes(5)
+})
+
 test('Elements are observed (including dynamic ones)', async () => {
   const user = userEvent.setup()
 

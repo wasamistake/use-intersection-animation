@@ -26,9 +26,11 @@ type Options = {
    */
   stagger?: number
   /**
-   * Native options for an observer: `root`, `rootMargin`, and `threshold`.
+   * Options for the observer: `root`, `rootMargin`, and `threshold`.
    */
-  observerOptions?: IntersectionObserverInit
+  observerOptions?: Omit<IntersectionObserverInit, 'root'> & {
+    root?: () => IntersectionObserverInit['root']
+  }
 }
 
 /**
@@ -119,7 +121,7 @@ export default function useIntersectionAnimation(options: Options = {}) {
   // for 'animate', 'observerOptions', etc.
   useEffect(() => {
     observer.current = new IntersectionObserver(animate, {
-      root,
+      root: root?.(),
       rootMargin,
       threshold,
     })

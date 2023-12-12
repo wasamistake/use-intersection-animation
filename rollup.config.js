@@ -5,30 +5,37 @@ import terser from '@rollup/plugin-terser'
 
 const pkg = JSON.parse(readFileSync(new URL('package.json', import.meta.url)))
 
-export default defineConfig({
-  input: 'src/index.ts',
-  output: [
-    {
-      file: pkg.main,
-      format: 'cjs',
-      sourcemap: true,
-    },
-    {
-      file: pkg.module,
+const exclude = [
+  '**/*.test.{ts,tsx}',
+  'vitest.config.ts',
+  'vitest.setup.ts',
+  '**/*.stories.{ts,tsx}',
+]
+
+export default defineConfig([
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        file: pkg.main,
+        format: 'cjs',
+        sourcemap: true,
+      },
+      {
+        file: pkg.module,
+        format: 'esm',
+        sourcemap: true,
+      },
+    ],
+    external: ['react', 'react-dom'],
+    plugins: [typescript({ exclude }), terser()],
+  },
+  {
+    input: 'src/effects.ts',
+    output: {
+      file: 'dist/effects.js',
       format: 'esm',
-      sourcemap: true,
     },
-  ],
-  external: ['react', 'react-dom'],
-  plugins: [
-    typescript({
-      exclude: [
-        '**/*.test.{ts,tsx}',
-        'vitest.config.ts',
-        'vitest.setup.ts',
-        '**/*.stories.{ts,tsx}',
-      ],
-    }),
-    terser(),
-  ],
-})
+    plugins: [typescript({ exclude }), terser()],
+  },
+])

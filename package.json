@@ -5,6 +5,17 @@
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./effects": {
+      "import": "./dist/effects.js",
+      "types": "./dist/types/effects.d.ts"
+    }
+  },
   "files": [
     "dist/"
   ],

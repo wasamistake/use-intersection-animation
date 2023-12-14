@@ -1,82 +1,19 @@
 import React, { useState } from 'react'
-import { afterEach, beforeEach, expect, test, vi, type Mock } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useIntersectionAnimation from '.'
-
-let intersect: (elements: Element[]) => void
-
-let entries: Pick<IntersectionObserverEntry, 'target' | 'isIntersecting'>[] = []
-
-let callbackMock: Mock
-
-const observeMock = vi.fn(element => {
-  if (entries.some(entry => entry.target === element)) return
-
-  const newEntry = {
-    target: element,
-    isIntersecting: false,
-  }
-
-  entries.push(newEntry)
-  callbackMock([newEntry])
-})
-
-const unobserveMock = vi.fn(element => {
-  const i = entries.findIndex(entry => entry.target === element)
-
-  entries.splice(i, 1)
-})
-
-const disconnectMock = vi.fn()
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const IntersectionObserverMock = vi.fn((callback, options) => {
-  callbackMock = vi.fn(entries => callback(entries))
-
-  intersect = elements => {
-    elements.forEach(element => {
-      const i = entries.findIndex(entry => entry.target === element)
-
-      if (i < 0) return
-
-      entries[i] = {
-        target: element,
-        isIntersecting: true,
-      }
-    })
-
-    callbackMock(entries)
-  }
-
-  return {
-    observe: observeMock,
-    unobserve: unobserveMock,
-    disconnect: disconnectMock,
-  }
-})
-
-const playMock = vi.fn()
-
-const AnimationMock = vi.fn(effect => {
-  return {
-    // Creates an object with the mock's prototype to pass
-    // the "instanceof" guard in code.
-    effect: Object.assign(Object.create(KeyframeEffectMock.prototype), {
-      ...effect,
-    }),
-    play: playMock,
-  }
-})
-
-const updateTimingMock = vi.fn()
-
-const KeyframeEffectMock = vi.fn(target => {
-  return {
-    target,
-    updateTiming: updateTimingMock,
-  }
-})
+import { AnimationMock, playMock } from './mocks/animation'
+import {
+  IntersectionObserverMock,
+  unobserveMock,
+  disconnectMock,
+  callbackMock,
+  intersect,
+  entries,
+  resetEntries,
+} from './mocks/intersection-observer'
+import { KeyframeEffectMock, updateTimingMock } from './mocks/keyframe-effect'
 
 beforeEach(() => {
   vi.stubGlobal('IntersectionObserver', IntersectionObserverMock)
@@ -88,7 +25,7 @@ afterEach(() => {
   vi.restoreAllMocks()
   vi.unstubAllGlobals()
 
-  entries = []
+  resetEntries()
 })
 
 test('The animation gets played once when an intersection happens', () => {

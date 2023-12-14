@@ -248,7 +248,7 @@ test('An invalid effect causes the hook to print an error', () => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
 
   // @ts-expect-error because we're testing an invalid effect.
-  render(<Sandbox options={{ effect: ':P' }} />)
+  render(<Sandbox options={{ effect: [] }} />)
 
   expect(console.error).toHaveBeenCalledWith(
     'Invalid effect. Please provide an object with keyframes and timing options.',

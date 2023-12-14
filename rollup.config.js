@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs'
 import { defineConfig } from 'rollup'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 import terser from '@rollup/plugin-terser'
 
@@ -28,7 +29,7 @@ export default defineConfig([
       },
     ],
     external: ['react', 'react-dom'],
-    plugins: [typescript({ exclude }), terser()],
+    plugins: [nodeResolve(), typescript({ exclude }), terser()],
   },
   {
     input: 'src/effects.ts',

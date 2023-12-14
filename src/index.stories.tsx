@@ -17,7 +17,9 @@ export const Sandbox: Story = {
 
     useEffect(() => {
       const intervalId = setInterval(() => {
-        console.log('Rerendering...')
+        console.info(
+          "Re-rendering component to check that animations don't play again.",
+        )
         setRerender(!rerender)
       }, 3000)
 

@@ -77,12 +77,13 @@ test('Animation delays are staggered correctly', () => {
   expect(updateTimingMock).toHaveBeenNthCalledWith(3, { delay: 1000 })
 })
 
-test("A change in the component's state doesn't trigger animations to run again", async () => {
+test("A change in a component's state doesn't trigger animations to run again", async () => {
   const user = userEvent.setup()
 
-  render(<Sandbox />)
+  render(<SandboxWithNewDepsOnEveryRender />)
 
-  // If the observer didn't get re-instantiated, everything should be in place.
+  // If the observer didn't get re-instantiated, the dependencies
+  // are being deeply compared, and everything should be in place.
   expect(IntersectionObserverMock).toHaveBeenCalledOnce()
   await user.click(screen.getByRole('button', { name: /rerender/i }))
   expect(IntersectionObserverMock).toHaveBeenCalledOnce()
@@ -235,6 +236,22 @@ function Sandbox(props: Props) {
           <div ref={animate}>Lazy box 2</div>
         </>
       )}
+    </>
+  )
+}
+
+function SandboxWithNewDepsOnEveryRender() {
+  const [rerender, setRerender] = useState(false)
+
+  const animate = useIntersectionAnimation({
+    effect: { keyframes: {}, options: {} },
+    observerOptions: {},
+  })
+
+  return (
+    <>
+      <button onClick={() => setRerender(!rerender)}>Rerender</button>
+      <div ref={animate} />
     </>
   )
 }

@@ -8,6 +8,7 @@ const pkg = JSON.parse(readFileSync(new URL('package.json', import.meta.url)))
 
 const exclude = [
   '**/*.test.{ts,tsx}',
+  '**/mocks/*',
   'vitest.config.ts',
   'vitest.setup.ts',
   '**/*.stories.{ts,tsx}',

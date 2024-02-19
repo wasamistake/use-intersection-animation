@@ -28,7 +28,10 @@ export const Sandbox: Story = {
 
     const [lazy, setLazy] = useState(false)
 
-    const [effect, setEffect] = useState(exportedEffects.reveal)
+    type ExportedEffectName = keyof typeof exportedEffects
+    const DEFAULT_EFFECT: ExportedEffectName = 'reveal'
+
+    const [effect, setEffect] = useState(exportedEffects[DEFAULT_EFFECT])
     const [repeat, setRepeat] = useState(false)
     const [stagger, setStagger] = useState(100)
 
@@ -54,17 +57,9 @@ export const Sandbox: Story = {
             <legend>Options</legend>
 
             <select
-              value={
-                Object.entries(exportedEffects).find(exportedEffect => {
-                  return exportedEffect[1] === effect
-                })?.[0]
-              }
+              defaultValue={DEFAULT_EFFECT}
               onChange={e =>
-                setEffect(
-                  exportedEffects[
-                    e.target.value as keyof typeof exportedEffects
-                  ],
-                )
+                setEffect(exportedEffects[e.target.value as ExportedEffectName])
               }
             >
               {Object.entries(exportedEffects).map(exportedEffect => {

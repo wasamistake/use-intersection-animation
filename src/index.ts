@@ -50,10 +50,12 @@ export default function useIntersectionAnimation(options: Options = {}) {
 
   const elements = useRef<Element[]>([])
 
-  const addElement: React.RefCallback<Element> = node => {
-    if (!(node instanceof Element) || elements.current.includes(node)) return
+  const addElement: React.RefCallback<Element> = element => {
+    if (!(element instanceof Element) || elements.current.includes(element)) {
+      return
+    }
 
-    elements.current = [...elements.current, node]
+    elements.current = [...elements.current, element]
   }
 
   const observer = useRef<IntersectionObserver | null>(null)
@@ -67,18 +69,18 @@ export default function useIntersectionAnimation(options: Options = {}) {
   })
 
   // Observes and animates elements when the appropriate dependencies change.
-  // useDeepCompareEffect is used to handle dependencies that might be new
-  // on every render, e.g., effect.
+  // useDeepCompareEffect is used to handle dependencies that might have a
+  // new reference on every render, e.g., effect.
   useDeepCompareEffect(() => {
+    if (!isSyntheticEffect(effect)) {
+      console.error(
+        'Invalid effect. Please provide an object with keyframes and timing options.',
+      )
+      return
+    }
+
     observer.current = new IntersectionObserver(
       entries => {
-        if (!isSyntheticEffect(effect)) {
-          console.error(
-            'Invalid effect. Please provide an object with keyframes and timing options.',
-          )
-          return
-        }
-
         const { keyframes, options } = effect
 
         const animations = entries.map(entry => {
@@ -125,8 +127,8 @@ export default function useIntersectionAnimation(options: Options = {}) {
     )
 
     if (!repeat) {
-      // Re-observes all elements because they were unobserved
-      // as a result of repeat=false.
+      // Re-observes all elements that were eventually unobserved as a result of
+      // repeat=false, so they are reanimated when the dependencies change.
       elements.current.forEach(element => observer.current?.observe(element))
     }
 

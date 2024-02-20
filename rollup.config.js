@@ -29,7 +29,7 @@ export default defineConfig([
         sourcemap: true,
       },
     ],
-    external: ['react', 'react-dom'],
+    external: ['react'],
     plugins: [nodeResolve(), typescript({ exclude }), terser()],
   },
   {

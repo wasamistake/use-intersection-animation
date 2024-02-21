@@ -1,9 +1,11 @@
 import { vi, type Mock } from 'vitest'
 
-export let entries: Pick<
-  IntersectionObserverEntry,
-  'target' | 'isIntersecting'
->[] = []
+type Entries = {
+  isIntersecting: boolean
+  target: Element
+}[]
+
+export let entries: Entries = []
 
 export const resetEntries = () => (entries = [])
 
@@ -36,18 +38,15 @@ export const IntersectionObserverMock = vi.fn((callback, options) => {
   callbackMock = vi.fn(entries => callback(entries))
 
   intersect = elements => {
-    elements.forEach(element => {
-      const i = entries.findIndex(entry => entry.target === element)
+    const intersectingEntries = entries.filter(entry => {
+      if (elements.includes(entry.target)) {
+        entry.isIntersecting = true
 
-      if (i < 0) return
-
-      entries[i] = {
-        target: element,
-        isIntersecting: true,
+        return true
       }
     })
 
-    callbackMock(entries)
+    callbackMock(intersectingEntries)
   }
 
   return {

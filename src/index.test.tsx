@@ -8,7 +8,6 @@ import {
   IntersectionObserverMock,
   unobserveMock,
   disconnectMock,
-  callbackMock,
   intersect,
   entries,
   resetEntries,
@@ -121,12 +120,18 @@ test('Lazily created elements are animated without triggering a re-animation of 
 
   render(<Sandbox options={{ repeat: true }} />)
 
-  // For now, assert the observer's default behavior of executing the callback
-  // for newly observed targets, as mocking some of the functionalities
-  // has proved to be tricky.
-  expect(callbackMock).toHaveBeenCalledTimes(3)
+  const elements = screen.getAllByText(/static/i)
+
+  intersect(elements)
+  expect(playMock).toHaveBeenCalledTimes(3)
+
+  expect(screen.queryAllByText(/lazy box/i)).toHaveLength(0)
   await user.click(screen.getByRole('button', { name: /toggle lazy/i }))
-  expect(callbackMock).toHaveBeenCalledTimes(5)
+
+  const lazyElements = screen.getAllByText(/lazy box/i)
+
+  intersect(lazyElements)
+  expect(playMock).toHaveBeenCalledTimes(5)
 })
 
 test('Elements are observed (including dynamic ones)', async () => {

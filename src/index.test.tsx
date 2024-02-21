@@ -250,13 +250,17 @@ function SandboxWithNewDepsOnEveryRender() {
 
   const animate = useIntersectionAnimation({
     effect: { keyframes: {}, options: {} },
+    repeat: true,
     observerOptions: {},
   })
 
   return (
     <>
       <button onClick={() => setRerender(!rerender)}>Rerender</button>
-      <div ref={animate} />
+
+      <div ref={animate}>Static box 1</div>
+      <div ref={animate}>Static box 2</div>
+      <div ref={animate}>Static box 3</div>
     </>
   )
 }

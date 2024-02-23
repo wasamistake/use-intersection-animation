@@ -1,5 +1,7 @@
 # useIntersectionAnimation
 
+https://github.com/wasamistake/use-intersection-animation/assets/150041252/1d453c51-0956-419f-a5cc-eff8d0c695ed
+
 This is a React hook to animate/reveal elements when they enter the viewport (or another root element). It uses the **Intersection Observer** and the **Web Animations** APIs to achieve that, which results in a package that is small and performant.
 
 Some built-in effects are also packaged for convenience.

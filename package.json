@@ -1,5 +1,6 @@
 {
   "name": "@wasamistake/use-intersection-animation",
+  "version": "0.1.0",
   "description": "Animate elements when they intersect with the viewport (or another root element).",
   "type": "module",
   "main": "dist/index.cjs",

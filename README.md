@@ -124,7 +124,7 @@ If you are new to those concepts, searching for 'CSS Keyframes' on YouTube will 
 
 ## Extending built-in effects
 
-This package comes with some ready-to-use effects. You can import them from `@wasamistake/use-intersection-animation/effects`.
+This package comes with some ready-to-use effects (most of them adapted from the awesome [Animista](https://animista.net/) library). You can import them from `@wasamistake/use-intersection-animation/effects`.
 
 ```tsx
 import {

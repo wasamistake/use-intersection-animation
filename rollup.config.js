@@ -33,7 +33,7 @@ export default defineConfig([
     plugins: [nodeResolve(), typescript({ exclude }), terser()],
   },
   {
-    input: 'src/effects.ts',
+    input: 'src/effects/index.ts',
     output: {
       file: 'dist/effects.js',
       format: 'esm',

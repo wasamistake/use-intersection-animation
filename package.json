@@ -14,7 +14,7 @@
     },
     "./effects": {
       "import": "./dist/effects.js",
-      "types": "./dist/types/effects.d.ts"
+      "types": "./dist/types/effects/index.d.ts"
     }
   },
   "files": [
